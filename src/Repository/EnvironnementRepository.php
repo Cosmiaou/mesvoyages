@@ -15,29 +15,22 @@ class EnvironnementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Environnement::class);
     }
-
-    //    /**
-    //     * @return Environnement[] Returns an array of Environnement objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Environnement
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        /**
+     * Supprime un Environnement
+     * @param Environnement $environnement
+     * @return void
+     */
+    public function remove(Environnement $environnement): void {
+        $this->getEntityManager()->remove($environnement);
+        $this->getEntityManager()->flush();
+    }
+    /**
+     * Ajoute ou modifie un Environnement
+     * @param Environnement $environnement
+     * @return void
+     */
+    public function add(Environnement $environnement): void {
+        $this->getEntityManager()->persist($environnement);
+        $this->getEntityManager()->flush();
+    }
 }
