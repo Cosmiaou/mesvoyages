@@ -1,5 +1,43 @@
 {%  extends "basefront.html.twig" %}
 
 {% block body %}
-<h1> Page d'accueil</h1>   
+    <h1> Bienvenue sur mon site de présentation de mes voyages</h1> <br>
+<p>
+    Vous pouvez retrouvez la liste des villes que j'ai visitées dans l'onglet <a href="/mesvoyages/public/index.php/voyages">Voyages</a>. <br>
+    
+    <table>
+        <tr>
+            {% for visite in visites %}
+                <td style="vertical-align: text-top; width: 50%">
+                    <div class="row">
+                        <div class="col">
+                            {% if visite.imagename %}
+                                <img src="{{ app.request.getBasePath()~vich_uploader_asset(visite, 'imageFile') }}" 
+                                     class="card-img-top" style="width:100%;height:auto;">
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <h5 class="text-primary">
+                                <a href="{{ path('voyages.showone', {id:visite.id}) }}">{{ visite.ville }}</a>
+                            </h5>
+                            <p>{{ visite.pays }}</p>
+                            <p>{{ visite.datecreationstring }}</p>
+                            {% if visite.note>=10 %}
+                                <div class="text-success">{{ visite.note }}/20</div>
+                            {% else %}
+                                <div class="text-danger">{{ visite.note }}/20</div>
+                            {% endif %}
+                            t° entre {{ visite.tempmin }}° et {{ visite.tempmax }}°<br />
+                            <strong>Environnements :</strong><br/>
+                            {% for environnement in visite.environnements %}
+                                {{ environnement.nom }}
+                            {% endfor %}
+                        </div>    
+                    </div>                    
+                </td>
+            {% endfor %}    
+        </tr>
+    </table>
+
+</p>
 {% endblock %}

@@ -11,8 +11,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: VisiteRepository::class)]
@@ -223,14 +223,14 @@ class Visite
 
     #[Assert\Callback]
     public function validate(ExecutionContextInterface $context) {
-        $file = this->getImageFile();
+        $file = $this->getImageFile();
         if ($file !=null && $file != "") {
             $poids = @filesize($file);
-            $poidsMax = 512000; 
+            $poidsMax = 1024000; 
            if($poids != false && $poids > $poidsMax) {
                 $context->buildViolation("Cette image est trop lourde (500 ko max).")
                     ->atPath('imageFile')
-                    -addViolation();
+                    ->addViolation();
             }
         }
     }
