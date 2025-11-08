@@ -56,6 +56,7 @@ class Visite
     private ?int $tempmin = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThan(propertyPath:'tempmin')]
     private ?int $tempmax = null;
 
     /**
