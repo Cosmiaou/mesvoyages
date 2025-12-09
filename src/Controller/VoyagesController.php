@@ -52,6 +52,18 @@ class VoyagesController extends AbstractController {
         return $this->redirectToRoute("voyages");
     }    
     
+    #[Route('/voyages/categorie/{champ}', name: 'voyages.findAllForOneCategory')]
+    public function findAllForOneCategory($champ, Request $request): Response{
+        if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token'))) {
+            $valeur = $request->get("recherche");
+            $visites = $this->repository->findAllForOneEnvironnement($valeur);
+            return $this->render("pages/voyages.html.twig", [
+                'visites' => $visites
+            ]);
+        }
+        return $this->redirectToRoute("voyages");
+    }   
+    
     #[Route('/voyages/voyage/{id}', name: 'voyages.showone')]
     public function showOne($id): Response{
         $visite = $this->repository->find($id);

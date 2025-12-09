@@ -28,6 +28,30 @@ class VisiteRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
+    
+    /**
+     * Retourne la liste des visites des villes d'un environnement en fonction de son nom
+     * @param type $nom
+     * @return array
+     */
+    public function findAllForOneEnvironnement($nom) : array
+    {
+        if($nom=="") {
+            return $this->createQueryBuilder('v')
+                    ->orderBy('v.datecreation', 'DESC')
+                    ->getQuery()
+                    ->getResult();
+        } else{
+            return $this->createQueryBuilder('v')
+                ->join('v.environnements', 'e')
+                ->where('e.nom=:nom')
+                ->setParameter('nom', $nom)
+                ->orderBy('v.ville', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+    }
+    
     /**
      * 
      * @param type $champ
